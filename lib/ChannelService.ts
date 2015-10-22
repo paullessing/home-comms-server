@@ -5,8 +5,9 @@ import { Channel, Action } from '../entities/Channel';
 import * as moment from 'moment';
 import HttpStatus from "../entities/HttpStatus";
 import { Response, ServerResponse } from "../entities/ServerResponse";
+import { EventEmitter } from 'events';
 
-class ChannelService {
+class ChannelService extends EventEmitter {
     public getLatestAction(channelName: string): Promise<ServerResponse> {
         if (!channelName) {
             return Promise.resolve(HttpStatus.BAD_REQUEST);
@@ -64,7 +65,10 @@ class ChannelService {
             if (data) {
                 action.data = data;
             }
-            return channel.addAction(action);
+            return channel.addAction(action).then(action => {
+                this.emit('action', channelName, action);
+                return action;
+            });
         }).then(action => {
             return new Response(HttpStatus.CREATED, action);
         });

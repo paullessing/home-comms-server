@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Socket Test</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/javascripts/jquery-2.1.4.min.js"></script>
+</head>
+
+<body id="home">
+
+<h1>Socket Test</h1>
+
+<script>
+    var socket = io();
+    socket.on('connect', function() {
+        console.log("connected");
+        socket.emit('subscribe', 'fooChan');
+        socket.on('action', function(data) {
+            console.log("Got data", data);
+        });
+    });
+</script>
+</body>
+</html>

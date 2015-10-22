@@ -17,6 +17,7 @@ mongoose.connect('mongodb://localhost:27017/home_comms');
 app.use(function(req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
     return next();
 });
 
@@ -34,9 +35,9 @@ app.use('/', channelRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found') as any; // Suppress dynamic adding of status throwing error
-  err.status = 404;
-  next(err);
+    var err = new Error('Not Found') as any; // Suppress dynamic adding of status throwing error
+    err.status = 404;
+    next(err);
 });
 
 // error handlers
@@ -44,20 +45,20 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.send(err);
-    //res.render('error', {
-    //  message: err.message,
-    //  error: err
-    //});
-  });
+    app.use(function(err: any, req, res, next: Function) {
+        res.status(err.status || 500);
+        res.send(err);
+        //res.render('error', {
+        //  message: err.message,
+        //  error: err
+        //});
+    });
 }
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
+app.use(function(err, req, res, next: Function) {
+    res.status(err.status || 500);
     res.send(err);
 });
 

@@ -5,6 +5,7 @@
  */
 
 var app = require('../app');
+var Socket = require('../socket');
 var debug = require('debug')('home-comms:server');
 var http = require('http');
 
@@ -20,6 +21,8 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+Socket.connect(server);
+
 
 /**
  * Listen on provided port, on all network interfaces.
